@@ -23,6 +23,7 @@ class FileStorage:
         self.all().update({obj.to_dict()['__class__'] + '.' + obj.id: obj})
 
     def delete(self, obj=None):
+        """Deletes an object instance from __objects"""
         if obj is not None and obj in FileStorage.__objects.values():
             del FileStorage.__objects[
                 obj.to_dict()['__class__'] + '.' + obj.id
