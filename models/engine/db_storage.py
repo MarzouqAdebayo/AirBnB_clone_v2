@@ -33,14 +33,14 @@ class DBStorage:
                                               db),
                                       pool_pre_ping=True)
 
-    if dev_env == "test":
-        Base.metadata.drop_all(self.__engine)
+        if dev_env == "test":
+            Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
         """Queries on the current database"""
         objs = {}
         if cls is not None and cls in classes:
-            for obj in self.__session.query(classes[cls].all()):
+            for obj in self.__session.query(classes[cls]).all():
                 key = str(obj.__class__.__name__) + "." + str(obj.id)
                 objs[key] = obj
         else:
