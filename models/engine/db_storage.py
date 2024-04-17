@@ -12,7 +12,7 @@ from models.review import Review
 from sqlalchemy.orm import sessionmaker, scoped_session
 
 
-username  = getenv("HBNB_MYSQL_USER")
+username = getenv("HBNB_MYSQL_USER")
 password = getenv("HBNB_MYSQL_PWD")
 host = getenv("HBNB_MYSQL_HOST")
 db = getenv("HBNB_MYSQL_DB")
@@ -71,7 +71,7 @@ class DBStorage:
         """
         Base.metadata.create_all(self.__engine)
         session_factory = sessionmaker(bind=self.__engine,
-                                     expire_on_commit=False)
+                                       expire_on_commit=False)
         Session = scoped_session(session_factory)
         self.__session = Session()
 

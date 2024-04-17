@@ -12,4 +12,3 @@ else:
     from models.engine.db_storage import FileStorage
     storage = FileStorage()
     storage.reload()
-
