@@ -2,6 +2,7 @@
 """ Console Module """
 import cmd
 import sys
+import json
 from models.base_model import BaseModel
 from models.__init__ import storage
 from models.user import User
@@ -127,7 +128,7 @@ class HBNBCommand(cmd.Cmd):
             [attr_name, attr_value] = args[i].split('=')
 
             if attr_name not in HBNBCommand.types:
-                new_instance.__dict__[attr_name] = str(attr_value.replace('_', ' '))
+                new_instance.__dict__[attr_name] = json.loads(attr_value.replace('_', ' '))
             else:
                 new_instance.__dict__[attr_name] = HBNBCommand.types[attr_name](attr_value)
         storage.new(new_instance)
