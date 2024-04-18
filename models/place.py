@@ -4,7 +4,6 @@ from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, ForeignKey, Integer, Float, Table
 from sqlalchemy.orm import relationship
 from models.review import Review
-from models.amenity import Amenity
 import models
 from os import getenv
 
@@ -88,5 +87,6 @@ class Place(BaseModel, Base):
         adds an Amenity.id to the attribute amenity_ids if obj is
         an instance of Amenity
         """
+        from models.amenity import Amenity
         if isinstance(obj, Amenity):
             self.amenity_ids.append(obj.id)
