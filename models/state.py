@@ -24,15 +24,15 @@ class State(BaseModel, Base):
     else:
         name = ""
 
-    @property
-    def cities(self):
-        """
-        get list of City instances with state_id
-        equals to the current State.id
-        """
-        list_cities = []
-        all_cities = models.storage.all(City)
-        for _, city_obj in all_cities.items():
-            if city_obj.state_id == self.id:
-                list_cities.append(city_obj)
-        return list_cities
+        @property
+        def cities(self):
+            """
+            get list of City instances with state_id
+            equals to the current State.id
+            """
+            list_cities = []
+            all_cities = models.storage.all(City)
+            for _, city_obj in all_cities.items():
+                if city_obj.state_id == self.id:
+                    list_cities.append(city_obj)
+            return list_cities

@@ -3,7 +3,6 @@
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, ForeignKey, Integer, Float, Table
 from sqlalchemy.orm import relationship
-from models.review import Review
 import models
 from os import getenv
 
@@ -40,7 +39,7 @@ class Place(BaseModel, Base):
         amenity_ids = []
         reviews = relationship('Review', backref="place",
                                cascade="all, delete-orphan")
-        amenities = relationship('Amenity', secondary=place_amenity,
+        amenities = relationship('Amenity', secondary='place_amenity',
                                  back_populates='place_amenities',
                                  viewonly=False)
     else:
@@ -56,37 +55,38 @@ class Place(BaseModel, Base):
         longitude = 0.0
         amenity_ids = []
 
-    @property
-    def reviews(self):
-        """reviews returns a list of Review instances with place_id
-        equals to the current Place.id
-        """
-        reviews_list = []
-        all_reviews = models.storage.all(Review)
-        for review in all_reviews.values():
-            if review.place_id == self.id:
-                reviews_list.append(review)
-        return reviews_list
+        @property
+        def reviews(self):
+            """reviews returns a list of Review instances with place_id
+            equals to the current Place.id
+            """
+            from models.review import Review
+            reviews_list = []
+            all_reviews = models.storage.all(Review)
+            for review in all_reviews.values():
+                if review.place_id == self.id:
+                    reviews_list.append(review)
+            return reviews_list
 
-    @property
-    def amenities(self, obj=None):
-        """amenities handles append method for adding an Amenity.id to the
-        to the attribute amenity_ids.
-        """
-        _objs = []
-        if storage_type == 'file':
-            for id in self.amenity_ids:
-                key = 'Amenity.' + id
-                if key in models.storage.__objects:
-                    _objs.append(models.storage.__objects[key])
-            return _objs
+        @property
+        def amenities(self, obj=None):
+            """amenities handles append method for adding an Amenity.id to the
+            to the attribute amenity_ids.
+            """
+            _objs = []
+            if storage_type == 'file':
+                for id in self.amenity_ids:
+                    key = 'Amenity.' + id
+                    if key in models.storage.__objects:
+                        _objs.append(models.storage.__objects[key])
+                return _objs
 
-    @amenities.setter
-    def amenities(self, obj):
-        """
-        adds an Amenity.id to the attribute amenity_ids if obj is
-        an instance of Amenity
-        """
-        from models.amenity import Amenity
-        if isinstance(obj, Amenity):
-            self.amenity_ids.append(obj.id)
+        @amenities.setter
+        def amenities(self, obj):
+            """
+            adds an Amenity.id to the attribute amenity_ids if obj is
+            an instance of Amenity
+            """
+            from models.amenity import Amenity
+            if isinstance(obj, Amenity):
+                self.amenity_ids.append(obj.id)
