@@ -128,9 +128,11 @@ class HBNBCommand(cmd.Cmd):
             [attr_name, attr_value] = args[i].split('=')
 
             if attr_name not in HBNBCommand.types:
-                new_instance.__dict__[attr_name] = json.loads(attr_value.replace('_', ' '))
+                new_instance.__dict__[attr_name] = json.loads(
+                    attr_value.replace('_', ' '))
             else:
-                new_instance.__dict__[attr_name] = HBNBCommand.types[attr_name](attr_value)
+                _type = HBNBCommand.types[attr_name]
+                new_instance.__dict__[attr_name] = _type(attr_value)
         storage.new(new_instance)
         storage.save()
         print(new_instance.id)
@@ -329,6 +331,6 @@ class HBNBCommand(cmd.Cmd):
         print("Updates an object with new information")
         print("Usage: update <className> <id> <attName> <attVal>\n")
 
+
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
-
