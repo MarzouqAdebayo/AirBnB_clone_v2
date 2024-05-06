@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """
 Fabric script that generates a .tgz archive from the contents of the
-web_static folder
+web_static folder and deploys it to web server
 """
 from fabric.api import *
 import os.path
@@ -36,7 +36,7 @@ def do_deploy(archive_path):
     if os.path.exists(archive_path) is False:
         return False
     try:
-	archive_filename = archive_path.split('/')[-1]
+        archive_filename = archive_path.split('/')[-1]
         put(archive_path, '/tmp/{}'.format(archive_filename), use_sudo=True)
         release_dir = '/data/web_static/releases/{}'.format(
             archive_filename.split('.')[0])
