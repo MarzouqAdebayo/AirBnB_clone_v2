@@ -36,8 +36,8 @@ def do_deploy(archive_path):
     if os.path.exists(archive_path) is False:
         return False
     try:
-        put(archive_path, '/tmp/', use_sudo=True)
-        archive_filename = archive_path.split('/')[-1]
+	archive_filename = archive_path.split('/')[-1]
+        put(archive_path, '/tmp/{}'.format(archive_filename), use_sudo=True)
         release_dir = '/data/web_static/releases/{}'.format(
             archive_filename.split('.')[0])
         sudo('mkdir -p {}').format(release_dir)
