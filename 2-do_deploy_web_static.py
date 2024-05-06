@@ -9,8 +9,8 @@ import tarfile
 from datetime import datetime
 
 
-env.hosts = []
-env.name = 'ubuntu'
+env.hosts = ['54.242.192.138', '3.90.85.81']
+env.user = 'ubuntu'
 
 
 def do_pack():
@@ -41,13 +41,13 @@ def do_deploy(archive_path):
         put(archive_path, '/tmp/')
         release_dir = '/data/web_static/releases/{}'.format(
             archive_filename.split('.')[0])
-        run('mkdir -p {}').format(release_dir)
+        run('mkdir -p {}'.format(release_dir))
         run('tar -xzf /tmp/{} -C {}'.format(archive_filename, release_dir))
         run('rm /tmp/{}'.format(archive_filename))
-        run('mv {}web_static/* {}'.format(release_dir, release_dir))
-        run('rm -rf {}web_static'.format(release_dir))
+        run('mv {}/web_static/* {}'.format(release_dir, release_dir))
+        run('rm -rf {}/web_static'.format(release_dir))
         run('rm -rf /data/web_static/current')
         run('ln -s {} /data/web_static/current'.format(release_dir))
         return True
-    except Exception:
+    except Exception as e:
         return False
