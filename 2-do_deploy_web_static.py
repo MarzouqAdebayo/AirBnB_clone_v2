@@ -35,19 +35,19 @@ def do_deploy(archive_path):
     """
     if os.path.exists(archive_path) is False:
         return False
+
     try:
         archive_filename = archive_path.split('/')[-1]
-        put(archive_path, '/tmp/{}'.format(archive_filename), use_sudo=True)
+        put(archive_path, '/tmp/')
         release_dir = '/data/web_static/releases/{}'.format(
             archive_filename.split('.')[0])
-        sudo('mkdir -p {}').format(release_dir)
-        sudo('tar -xzf /tmp/{} -C {}'.format(archive_filename, release_dir))
-
-        sudo('rm /tmp/{}'.format(archive_filename))
-        sudo('rm /data/web_static/current')
-
-        sudo('ln -s {} /data/web_static/current'.format(release_dir))
-
+        run('mkdir -p {}').format(release_dir)
+        run('tar -xzf /tmp/{} -C {}'.format(archive_filename, release_dir))
+        run('rm /tmp/{}'.format(archive_filename))
+        run('mv {}web_static/* {}'.format(release_dir, release_dir))
+        run('rm -rf {}web_static'.format(release_dir))
+        run('rm -rf /data/web_static/current')
+        run('ln -s {} /data/web_static/current'.format(release_dir))
         return True
     except Exception:
         return False
