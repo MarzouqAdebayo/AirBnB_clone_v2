@@ -12,6 +12,7 @@ from datetime import datetime
 env.hosts = ['54.242.192.138', '3.90.85.81']
 env.user = 'ubuntu'
 
+
 def do_pack():
     """
     Generates a .tgz file
@@ -29,27 +30,27 @@ def do_pack():
 
 
 def do_deploy(archive_path):
-    """ function distrubtes an archive to my web servers
-    """
-    path_existence = os.path.exists(archive_path)
-    if path_existence is False:
+    """Distributes an archive to your web servers."""
+    if not os.path.exists(archive_path):
         return False
-    try:
-        path_split = archive_path.replace('/', ' ').replace('.', ' ').split()
-        just_directory = path_split[0]
-        no_tgz_name = path_split[1]
-        full_filename = path_split[1] + '.' + path_split[2]
-        folder = '/data/web_static/releases/{}/'.format(no_tgz_name)
-        put(archive_path, '/tmp/')
-        run('mkdir -p {}'.format(folder))
-        run('tar -xzf /tmp/{} -C {}'.format(full_filename, folder))
-        run('rm /tmp/{}'.format(full_filename))
-        run('mv {}web_static/* {}'.format(folder, folder))
-        run('rm -rf {}web_static'.format(folder))
-        current = '/data/web_static/current'
-        run('rm -rf {}'.format(current))
-        run('ln -s {} {}'.format(folder, current))
-        print("New version deployed!")
-        return True
-    except Exception:
-        return False
+
+    archive_filename = os.path.basename(archive_path)
+    archive_name_without_ext = archive_filename.split('.')[0]
+
+    put(archive_path, f'/tmp/', use_sudo=True)
+
+    release_dir = f"/data/web_static/releases/{archive_name_without_ext}"
+    sudo(f'mkdir -p {release_dir}')
+    sudo(f'tar -xzf /tmp/{archive_filename} -C {release_dir}/')
+
+    sudo(f'rm /tmp/{archive_filename}')
+    # Move uncompressed file's content
+    sudo(f'mv {release_dir}/web_static/* {release_dir}/')
+    # Remove uncompressed folder
+    sudo(f'rm -rf {release_dir}/web_static/')
+    # Remove old symlink
+    sudo('rm -rf /data/web_static/current')
+    # Create new symlink
+    sudo(f'ln -s {release_dir}/ "/data/web_static/current"')
+
+    return True

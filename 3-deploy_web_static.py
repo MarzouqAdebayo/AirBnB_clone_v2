@@ -12,6 +12,7 @@ from datetime import datetime
 env.hosts = ['54.242.192.138', '3.90.85.81']
 env.user = 'ubuntu'
 
+
 def do_pack():
     """
     Generates a .tgz file
@@ -53,6 +54,7 @@ def do_deploy(archive_path):
     sudo(f'ln -s {release_dir}/ "/data/web_static/current"')
 
     return True
+
 
 def deploy():
     """ Creates and distributes the archive to the web servers"""
