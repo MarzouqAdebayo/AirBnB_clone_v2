@@ -37,7 +37,7 @@ def do_deploy(archive_path):
     archive_filename = os.path.basename(archive_path)
     archive_name_without_ext = os.path.splitext(archive_filename)[0]
 
-    put(archive_path, f'/tmp/{archive_filename}', use_sudo=True)
+    put(archive_path, f'/tmp/', use_sudo=True)
 
     release_dir = f"/data/web_static/releases/{archive_name_without_ext}"
     sudo(f'mkdir -p {release_dir}')
