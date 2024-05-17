@@ -13,7 +13,7 @@ class FileStorage:
         if cls is not None:
             objs = {}
             for key, value in FileStorage.__objects.items():
-                if cls.__name__ in key:
+                if hasattr(cls, '__name__') and cls.__name__ in key:
                     objs.update({key: value})
             return objs
         return FileStorage.__objects
