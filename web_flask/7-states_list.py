@@ -15,11 +15,12 @@ def states_list():
     Function states_list that handles "/states_list" route
     """
     states = storage.all('State').values()
+    print(states)
     return render_template("7-states_list.html", states=states)
 
 
 @app.teardown_appcontext
-def handle_teardown():
+def handle_teardown(self):
     """
     method executed during teardown
     """
