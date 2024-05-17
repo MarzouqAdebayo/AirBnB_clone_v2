@@ -13,7 +13,7 @@ def hello_world():
     """
     Function hello_world that handles "/" route
     """
-    return "<p>Hello HBNB!</p>"
+    return "Hello HBNB!"
 
 
 if __name__ == "__main__":
