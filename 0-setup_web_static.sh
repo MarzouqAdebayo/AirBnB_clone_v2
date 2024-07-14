@@ -10,7 +10,7 @@ fi
 # Create needed diretories
 sudo mkdir -p /data/web_static/shared
 sudo mkdir -p /data/web_static/releases/test/
-echo '<html><head></head><body>Holberton School</body></html>' > /data/web_static/releases/test/index.html
+echo '<html><head></head><body>Holberton School</body></html>' | sudo tee /data/web_static/releases/test/index.html
 
 # Create symbolic link
 sudo rm -f "/data/web_static/current"
@@ -27,7 +27,7 @@ location_directive="\n\tlocation /hbnb_static {\n\t\talias /data/web_static/curr
 config_file="/etc/nginx/sites-available/default"
 
 # Add location to nginx config
-sudo sed -i "29i\ $location_directive" "$config_file"
+sudo sed -i "55i\ $location_directive" "$config_file"
 
 # Restart nginx service
 sudo service nginx restart
