@@ -9,7 +9,7 @@ import tarfile
 from datetime import datetime
 
 
-env.hosts = ['54.242.192.138', '3.90.85.81']
+env.hosts = ['54.90.56.152', '18.208.120.166']
 env.user = 'ubuntu'
 
 
