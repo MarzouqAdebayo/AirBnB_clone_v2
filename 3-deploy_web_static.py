@@ -9,7 +9,7 @@ import tarfile
 from datetime import datetime
 
 
-env.hosts = ['54.242.192.138', '3.90.85.81']
+env.hosts = ['54.90.56.152', '18.208.120.166']
 env.user = 'ubuntu'
 
 
@@ -51,7 +51,7 @@ def do_deploy(archive_path):
     # Remove old symlink
     sudo('rm -rf /data/web_static/current')
     # Create new symlink
-    sudo(f'ln -s {release_dir}/ "/data/web_static/current"')
+    sudo(f'ln -s {release_dir}/ /data/web_static/current')
 
     return True
 

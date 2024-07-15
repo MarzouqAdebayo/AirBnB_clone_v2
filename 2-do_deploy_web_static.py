@@ -51,6 +51,6 @@ def do_deploy(archive_path):
     # Remove old symlink
     run('rm -rf /data/web_static/current')
     # Create new symlink
-    run(f'ln -s {release_dir}/ "/data/web_static/current"')
+    run(f'ln -s {release_dir}/ /data/web_static/current')
 
     return True
